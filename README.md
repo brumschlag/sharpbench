@@ -28,7 +28,7 @@ For `judge` mode, `claude` solver, or `pi` solver, set `ANTHROPIC_API_KEY` in th
 ## Quick start
 
 ```bash
-git clone https://github.com/YOUR_ORG/sharpbench.git
+git clone https://github.com/brumschlag/sharpbench.git
 cd sharpbench
 dotnet build
 
