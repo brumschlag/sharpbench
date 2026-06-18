@@ -4,6 +4,7 @@ using SharpBench;
 // ── Args ──────────────────────────────────────────────────────────────────
 // Usage: dotnet run -- [--mode judge|execute] [--data PATH] [--limit N]
 //                      [--repo SUBSTR] [--instance ID] [--sdk-image IMG] [--out DIR]
+//                      [--solver gold|claude|pi] [--model ID] [--provider ID]
 string mode = ArgValue("--mode") ?? "judge";
 string dataPath = ArgValue("--data") ?? "data/swe-sharp-bench.csv";
 int limit = int.TryParse(ArgValue("--limit"), out var l) ? l : 3;
@@ -127,7 +128,8 @@ async Task<int> RunExecuteMode()
     ISolver solver = (ArgValue("--solver") ?? "gold").ToLowerInvariant() switch
     {
         "claude" => new ClaudeSolver(),
-        "pi" => new PiSolver(outDir, ArgValue("--model") ?? "anthropic/claude-opus-4-8"),
+        "pi" => new PiSolver(outDir, ArgValue("--model") ?? "anthropic/claude-opus-4-8",
+            provider: ArgValue("--provider")),
         "gold" => new GoldSolver(),
         var s => throw new ArgumentException($"unknown --solver '{s}' (use gold|claude|pi)"),
     };

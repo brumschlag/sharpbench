@@ -80,7 +80,8 @@ dotnet run --project src/SharpBench -c Release -- \
 | `--sdk-image IMG` | Override auto-detected SDK image |
 | `--framework TFM` | Override auto-detected target framework (e.g. `net8.0`) |
 | `--max-rounds N` | Iterative solver attempts (default: 3; `pi` only) |
-| `--model ID` | Model for `pi` solver (default: `anthropic/claude-opus-4-8`) |
+| `--model ID` | Model for `pi` solver (default: `anthropic/claude-opus-4-8`). Use `provider/model` for non-Anthropic backends (e.g. `openai/gpt-4o`, `google/gemini-2.5-pro`) |
+| `--provider ID` | Optional `pi` provider when `--model` is a bare id (e.g. `--provider openai --model gpt-4o`) |
 | `--out DIR` | Output directory (default: `results`) |
 | `--data PATH` | Dataset CSV path (default: `data/swe-sharp-bench.csv`) |
 
@@ -118,7 +119,22 @@ dotnet run --project src/SharpBench -- \
   --mode execute --instance ardalis__cleanarchitecture-546 --solver pi --max-rounds 3
 ```
 
-`pi` requires the CLI (`npm i -g @earendil-works/pi-coding-agent`) and `ANTHROPIC_API_KEY`.
+`pi` requires the CLI (`npm i -g @earendil-works/pi-coding-agent`) and credentials for the chosen
+provider (e.g. `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, or `pi /login`).
+
+```bash
+# Anthropic (default)
+dotnet run --project src/SharpBench -- \
+  --mode execute --instance ardalis__cleanarchitecture-546 --solver pi
+
+# OpenAI via provider/model prefix
+dotnet run --project src/SharpBench -- \
+  --mode execute --instance ardalis__cleanarchitecture-546 --solver pi --model openai/gpt-4o
+
+# OpenAI via separate provider flag
+dotnet run --project src/SharpBench -- \
+  --mode execute --instance ardalis__cleanarchitecture-546 --solver pi --provider openai --model gpt-4o
+```
 
 ### Iterative verification (`pi`)
 
