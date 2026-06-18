@@ -1,0 +1,7 @@
+bin/
+obj/
+results/
+logs/
+.tmp/
+.claude/
+*.user
